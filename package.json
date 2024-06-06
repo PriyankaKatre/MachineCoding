@@ -1,0 +1,27 @@
+{
+  "name": "infinitescroll",
+  "version": "1.0.0",
+  "description": "React implemement infinite scroll",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PriyankaKatre/reactMachineCoding.git"
+  },
+  "keywords": [
+    "mcr"
+  ],
+  "author": "priyanka katre",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PriyankaKatre/reactMachineCoding/issues"
+  },
+  "homepage": "https://github.com/PriyankaKatre/reactMachineCoding#readme",
+  "dependencies": {
+    "parcel": "^2.12.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

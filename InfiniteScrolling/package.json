@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "React implemement infinite scroll",
   "main": "index.js",
-  "scripts": {
+   "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
     "test": "jest"
   },
   "repository": {

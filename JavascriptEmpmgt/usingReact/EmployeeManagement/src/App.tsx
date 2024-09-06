@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-
 import "./App.css";
 
 type employeeType = {
@@ -39,6 +38,7 @@ function App() {
 
   const [empInfo, setEmpInfo] = useState(initialEmpInfo);
   const formRef = useRef<HTMLFormElement>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (
@@ -52,18 +52,24 @@ function App() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const id = empData[empData.length - 1].id + 1;
     setEmpInfo((prev) => ({
       ...prev,
       [name]: value,
-      id,
     }));
   };
   const OnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submit");
-    setEmpData([...empData, empInfo]);
+    if (isEditMode) {
+      setEmpData(empData.map((emp) => (emp.id === empInfo.id ? empInfo : emp)));
+      setSelectedEmployee(empInfo); // Update selected employee after edit
+    } else {
+      const newEmployee = { ...empInfo, id: (empData.length + 1).toString() };
+      setEmpData([...empData, newEmployee]);
+      setSelectedEmployee(newEmployee); // Set new employee as selected
+    }
     setEmpInfo(initialEmpInfo);
+    setShowForm(false);
+    setIsEditMode(false);
   };
 
   const fetchEmployees = async () => {
@@ -86,7 +92,10 @@ function App() {
     fetchEmployees();
   }, []);
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>, id: string) => {
+  const handleListItemClick = (
+    e: React.MouseEvent<HTMLElement>,
+    id: string
+  ) => {
     const { tagName } = e.target as HTMLElement;
     if (tagName === "SPAN") {
       const newSelectedEmployee = empData.filter((emp) => +emp.id === +id);
@@ -103,12 +112,35 @@ function App() {
       setSelectedEmployeeID(+filteredEmp[0]?.id || null);
     }
   };
+  const handleEdit = (selectedEmployee: EmployeeType) => {
+    setShowForm(true);
+      setIsEditMode(true);
+      let formatedDate;
+       if (selectedEmployee.dob) {
+         if (selectedEmployee.dob.includes("/")) {
+           let [date, month, year] = selectedEmployee.dob.split("/");
+           formatedDate = `${year}-${month}-${date}`;
+         } else if (selectedEmployee.dob.includes("-")) {
+           formatedDate = selectedEmployee.dob;
+         }
+       }
+    setEmpInfo({
+      ...selectedEmployee,
+      dob: formatedDate,
+    });
+  };
+
+    const handleAdd = () => {
+      setShowForm(true);
+      setIsEditMode(false);
+      setEmpInfo(initialEmpInfo);
+    };
   return (
     <>
       <div id="app">
         <header className="header">
           <h1>Employee Database Management</h1>
-          <button className="createEmployee" onClick={() => setShowForm(true)}>
+          <button className="createEmployee" onClick={handleAdd}>
             Add Employee
           </button>
         </header>
@@ -122,7 +154,7 @@ function App() {
                     <span
                       key={emp.id}
                       id={emp.id}
-                      onClick={(e) => handleClick(e, emp.id)}
+                      onClick={(e) => handleListItemClick(e, emp.id)}
                       className={`employees__names--item
                         ${selectedEmployeeID === +emp.id ? "selected" : ""}`}
                     >
@@ -149,7 +181,12 @@ function App() {
                   <span>Mobile - {selectedEmployee?.contactNumber}</span>
                   <span>DOB - {selectedEmployee?.dob}</span>
                 </div>
-                <button className="editEmployee">Edit Employee</button>
+                <button
+                  className="editEmployee"
+                  onClick={() => handleEdit(selectedEmployee)}
+                >
+                  Edit Employee
+                </button>
               </>
             )}
           </div>

@@ -118,7 +118,6 @@
       newEmpData["id"] = id;
       newEmpData["age"] = age;
       employees.push(newEmpData);
-      console.log("add employee");
     } else {
       let index = employees.findIndex((emp) => emp.id === selectedEmpID);
       employees[index] = { ...employees[index], ...newEmpData };

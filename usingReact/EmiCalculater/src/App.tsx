@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import "./App.css";
 
 function App() {
@@ -8,46 +10,28 @@ function App() {
     rateOfInterest: 0,
     time: 0,
   });
-  console.log("emi", +emi);
+  const chartRef = useRef(null);
 
   const handleINputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "loanAmount" && value > 200) {
-      setInputValues((prev) => ({
-        ...prev,
-        [name]: 200,
-      }));
-    } else if (name === "rateOfInterest" && value > 20) {
-      setInputValues((prev) => ({
-        ...prev,
-        [name]: 20,
-      }));
-    } else if (name === "time" && value > 30) {
-      setInputValues((prev) => ({
-        ...prev,
-        [name]: 30,
-      }));
-    } else {
-      setInputValues((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
-
-  const getSliderValue = (value: number | string) => {
-    return value === "" ? 0 : value;
+    setInputValues((prev) => ({
+      ...prev,
+      [name]: Math.min(
+        value,
+        name === "loanAmount" ? 200 : name === "rateOfInterest" ? 20 : 30
+      ),
+    }));
   };
 
   const calculateEMI = () => {
     const p = +inputValues.loanAmount * 100000;
-    const r = (+inputValues.rateOfInterest / 100)/12;
+    const r = +inputValues.rateOfInterest / 100 / 12;
     const t = +inputValues.time * 12;
-    if (p ===0 || r === 0 || t===0) {
+    if (p === 0 || r === 0 || t === 0) {
       return 0;
     }
     const emi = (p * r * (1 + r) ** t) / ((1 + r) ** t - 1);
-    return emi && +(emi).toFixed(0);
+    return emi && +emi.toFixed(0);
   };
 
   const totalInterest = () => {
@@ -55,13 +39,55 @@ function App() {
     const t = +inputValues.time * 12;
     const totalInterestPayable = calculateEMI() * t - p;
     return totalInterestPayable;
-  }
+  };
+
+  const totalPayment = () => {
+    const p = +inputValues.loanAmount * 100000;
+    return p + totalInterest();
+  };
 
   useEffect(() => {
-    if ((!inputValues.loanAmount && !inputValues.rateOfInterest && !inputValues.time))
-      return;
     setEmi(calculateEMI());
-  }, [inputValues.loanAmount, inputValues.rateOfInterest, inputValues.time]);
+  }, [inputValues]);
+
+  const totalInterestValue = totalInterest();
+  const totalPaymentValue = totalPayment();
+
+  const totalInterestPercent: number =
+    totalInterestValue && totalPaymentValue
+      ? parseFloat(((totalInterestValue / totalPaymentValue) * 100).toFixed(0))
+      : 0;
+
+  const totalPrincipalPercent = 100 - totalInterestPercent;
+
+  const options = {
+    chart: {
+      type: "pie",
+    },
+    title: {
+      text: "My Pie Chart",
+    },
+    series: [
+      {
+        name: "Share",
+        data: [
+          { name: "Total Interest", y: totalInterestPercent },
+          { name: "Principal Loan Amount", y: totalPrincipalPercent },
+        ],
+      },
+    ],
+    plotOptions: {
+      pie: {
+        dataLabels: {
+          enabled: true,
+          format: "{point.name}: {point.percentage:.1f} %",
+        },
+      },
+    },
+    tooltip: {
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+  };
 
   return (
     <>
@@ -75,8 +101,8 @@ function App() {
               name="loanAmount"
               min="0"
               max="200"
-              defaultValue={inputValues.loanAmount}
-              onBlur={(e) => handleINputChange(e)}
+              value={inputValues.loanAmount}
+              onChange={(e) => handleINputChange(e)}
             />
             <span>₹</span>
           </div>
@@ -86,8 +112,8 @@ function App() {
             name="loanAmount"
             min="0"
             max="200"
-            defaultValue={getSliderValue(inputValues.loanAmount)}
-            onBlur={(e) => handleINputChange(e)}
+            value={inputValues.loanAmount}
+            onChange={(e) => handleINputChange(e)}
           />
         </div>
         <div className="ticks">
@@ -109,8 +135,8 @@ function App() {
             min="0"
             max="20"
             name="rateOfInterest"
-            defaultValue={inputValues.rateOfInterest}
-            onBlur={(e) => handleINputChange(e)}
+            value={inputValues.rateOfInterest}
+            onChange={(e) => handleINputChange(e)}
           />
           <span>%</span>
         </div>
@@ -120,8 +146,8 @@ function App() {
           min="0"
           max="20"
           name="rateOfInterest"
-          defaultValue={getSliderValue(inputValues.rateOfInterest)}
-          onBlur={(e) => handleINputChange(e)}
+          value={inputValues.rateOfInterest}
+          onChange={(e) => handleINputChange(e)}
         />
         <div className="ticks">
           <span className="tick">0</span>
@@ -138,19 +164,19 @@ function App() {
             name="time"
             min="0"
             max="30"
-            defaultValue={inputValues.time}
-            onBlur={(e) => handleINputChange(e)}
+            value={inputValues.time}
+            onChange={(e) => handleINputChange(e)}
           />
+          <span>Year</span>
         </div>
-
         <input
           className="slider"
           type="range"
           name="time"
           min="0"
           max="30"
-          defaultValue={getSliderValue(inputValues.time)}
-          onBlur={(e) => handleINputChange(e)}
+          value={inputValues.time}
+          onChange={(e) => handleINputChange(e)}
         />
         <div className="ticks">
           <span className="tick">0</span>
@@ -163,10 +189,15 @@ function App() {
         </div>
       </div>
       <div className="loanEMI">Loan EMI {emi}</div>
-      <div className="loanEMI">Total Interest Payable {totalInterest()}</div>
+      <div className="loanEMI">Total Interest Payable {totalInterestValue}</div>
       <div className="loanEMI">
-        Total Payment (Principal + Interest) {emi + totalInterest()}
+        Total Payment (Principal + Interest) {totalPaymentValue}
       </div>
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={options}
+        ref={chartRef}
+      />
     </>
   );
 }

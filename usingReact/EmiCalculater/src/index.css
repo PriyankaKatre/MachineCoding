@@ -1,0 +1,24 @@
+ .slider-container {
+    position: relative;
+    width: 50%;
+}
+.text {
+    width: 50%;
+    margin-left: 20px;
+}
+.text-input-container {
+    margin: 20px;
+}
+.slider {
+    width: 100%;
+}
+.ticks {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    top: 20px;
+}
+.tick {
+    text-align: center;
+    width: 20px;
+}

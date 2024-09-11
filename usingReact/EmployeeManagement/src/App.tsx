@@ -35,7 +35,9 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [empInfo, setEmpInfo] = useState(initialEmpInfo);
   const formRef = useRef<HTMLFormElement>(null);
-  const [isEditMode, setIsEditMode] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+
+    console.log("empInfo", empInfo);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (

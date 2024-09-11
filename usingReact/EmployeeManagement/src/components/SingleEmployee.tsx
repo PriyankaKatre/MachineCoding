@@ -12,6 +12,7 @@ const SingleEmployee = ({
   setIsEditMode,
   setEmpInfo,
 }: singleEmpType) => {
+    
   const handleEdit = (selectedEmployee: employeeType) => {
     setShowForm(true);
     setIsEditMode(true);

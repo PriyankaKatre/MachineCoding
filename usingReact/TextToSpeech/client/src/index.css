@@ -1,0 +1,17 @@
+#textContainer span {
+  padding: 2px;
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+.text-wrapper {
+    border: 1px solid green;
+    padding: 20px;
+    margin: 10px;
+}
+.custom-audio {
+  width: 100%; /* or any specific width you prefer, e.g., 500px */
+  height: 54px; /* if you want to set a specific height */
+}

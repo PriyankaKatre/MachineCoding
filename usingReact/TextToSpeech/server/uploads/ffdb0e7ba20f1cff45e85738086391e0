@@ -1,0 +1,10 @@
+Improving an existing quality control tool which is being used by back-office users of a stock exchange and financial information company. This tool validates the data coming from various sources and generates alerts if data doesn’t meet the criteria defined in the algorithms.
+
+
+	Designing and developing user interface using React Js, Redux for SPA development.
+	Developing responsive application that can be served to Desktop, Tablet and Mobile users using ReactJs.
+	Maintaining states in the stores and dispatched the actions using Redux
+	Upgrading entire application’s UI library (Element Framework) from old version to latest version.
+	Interacting with Testing team, Scrum Master and Business Analysts for fixing the issues.
+	Performing system testing for complete UI after fixing the issues which were reported by testing team.
+	Following an Agile development process for change delivery

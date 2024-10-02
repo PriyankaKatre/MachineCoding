@@ -10,7 +10,7 @@ const Header = ({ setActiveTab }: tabsTypes) => {
     setActiveTab(e.target.value);
   };
   return (
-    <div>
+    <section className="header-section">
       <h1>Financial Calculator</h1>
       <div className="options">
         <div className="label">Select Calculator</div>
@@ -22,7 +22,7 @@ const Header = ({ setActiveTab }: tabsTypes) => {
           <option value="EMI">EMI Calculator</option>
         </select>
       </div>
-    </div>
+    </section>
   );
 };
 

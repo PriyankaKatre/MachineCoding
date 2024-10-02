@@ -40,7 +40,7 @@ console.log("swpResult", swpResult);
       const P = parseFloat(principal);
       const W = parseFloat(withdrawal);
       const r = parseFloat(returnRate) / 100 / 12;
-        const n = parseInt(tenure) * 12;
+        const n = parseFloat(tenure) * 12;
         if (isNaN(P) || isNaN(W) || isNaN(r) || isNaN(n)) {
             console.log('Invalid Input Values')
             return;

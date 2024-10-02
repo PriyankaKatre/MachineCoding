@@ -1,13 +1,13 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
 .calculator-container,
 .input-container {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-     color:rgb(50, 50, 50)
-}
-.input-container {
-
+    color:rgb(117, 115, 115)
 }
 .number-input-container {
     display: flex;
@@ -72,4 +72,31 @@
 .options {
     display: flex;
     justify-content: space-between;
+}
+.header-section
+ h1
+ {
+    text-align: center;
+    color:rgb(50, 50, 50);
+    font-size: 2.5rem
+ }
+/* Customize the scrollbar width */
+::-webkit-scrollbar {
+  width: 16px; /* Adjust the width as needed */
+}
+
+/* Customize the scrollbar track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Customize the scrollbar handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px; /* Optional: for rounded corners */
+}
+
+/* Customize the scrollbar handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

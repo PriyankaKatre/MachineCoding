@@ -1,0 +1,64 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: rgb(18, 18, 18);
+    width: 400px;
+    padding: 20px;
+}
+
+header {
+    padding: 20px;
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.toDoFarm {
+  padding: 20px;
+  text-align: center;
+}
+
+.toDoFarm input {
+    background-color: rgb(86, 85, 85);
+    font-size: 14px;
+    padding: 5px;
+    border: none;
+    color: #fff;
+}
+
+.toDoFarm button {
+    background-color: blue;
+    font-size: 14px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#toDo_List {
+    padding: 0 20px;
+}
+#toDo_List li {
+    background-color: rgb(86, 85, 85);
+    font-size: 18px;
+    padding: 5px;
+    border: none;
+    color: #fff;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+#delete-task-btn {
+    background-color: red;
+     color: #fff;
+     border: none;
+     padding: 5px;
+}

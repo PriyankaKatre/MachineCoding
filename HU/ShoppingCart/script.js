@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { id: 4, name: "item4", price: 53 },
       { id: 5, name: "item5", price: 63 },
     ];
-    const cart = [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     const productLists = document.querySelector(".products");
     const cartTotal = document.querySelector(".total");
@@ -42,8 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             cart.push({ ...product, quantity: 1, totalPrice: product.price });
+
         }
-      renderCart();
+        renderCart();
+        saveTask();
     };
 
     const renderCart = () => {
@@ -56,8 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
           itemDiv.classList.add("cart-item-container");
           itemDiv.innerHTML = `<span>${prod.name} - $${prod.totalPrice.toFixed(
             2
-          )} -qty ${prod.quantity}</span>`;
-          cartItem.append(itemDiv);
+          )} -qty ${prod.quantity}</span>
+          <button class='deleteBtn'>Delete</button>`;
+            itemDiv
+              .querySelector(".deleteBtn")
+              .addEventListener("click", (e) => {
+                e.stopPropagation();
+                cart = cart.filter((item) => item.id !== prod.id);
+                  itemDiv.remove();
+                  renderCart();
+                  saveTask()
+              });
+          cartItem.appendChild(itemDiv);
           cartTotal.textContent = `$${totalPrice}`;
         });
       } else {
@@ -65,8 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
     checkoutBtn.addEventListener('click', () => {
-        cart.length = 0;
+        cart = [];
         alert('Checkout is successfull');
         renderCart();
+        saveTask();
     })
+
+    const saveTask = () => {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    };
+    renderCart()
 })

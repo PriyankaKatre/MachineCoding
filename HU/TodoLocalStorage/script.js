@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         isCompleted: false,
       };
         tasks.push(newTask);
-
         saveTask();
         renderTask(newTask);
       inputToDo.value = "";

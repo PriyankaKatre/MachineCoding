@@ -11,9 +11,11 @@
 <div class="container">
     <h2>Expense Tracker</h2>
   <div class="add-expense">
-    <input type="text" placeholder="Expense name" id="expenseName"/>
-    <input type="number" placeholder="Amount" id="expenseAmount"/>
-    <button id="AddExpenseBtn">Add Expense</button>
+    <form id="expense-form">
+        <input type="text" placeholder="Expense name" id="expenseName"/>
+        <input type="number" placeholder="Amount" id="expenseAmount"/>
+        <button id="AddExpenseBtn" type="submit">Add Expense</button>
+    </form>
   </div>
   <h2>Expenses</h2>
   <div class="expenses-list">

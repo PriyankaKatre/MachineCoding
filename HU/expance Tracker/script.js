@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let expenseForm = document.querySelector("#expense-form");
     let expenseName = document.querySelector("#expenseName");
     let expenseAmount = document.querySelector("#expenseAmount");
     let AddExpenseBtn = document.querySelector("#AddExpenseBtn");
@@ -7,51 +8,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let expensesData = JSON.parse(localStorage.getItem("expenses")) || [];
 
-
-    AddExpenseBtn.addEventListener('click', () => {
-        let name = expenseName.value.trim();
-        let amount = expenseAmount.value.trim();
-        let newExpenses = {
-            id: Date.now(),
-            name,
-            amount
-        }
-        expensesData.push(newExpenses);
-        expenseName.value = '';
-        expenseAmount.value = '';
-        saveTask()
-        render()
-    })
+    expenseForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      let name = expenseName.value.trim();
+      let amount = parseInt(expenseAmount.value.trim());
+      if (name !== "" && !isNaN(amount) && amount > 0) {
+        let newExpense = {
+          id: Date.now(),
+          name,
+          amount,
+        };
+        expensesData.push(newExpense);
+        expenseName.value = "";
+        expenseAmount.value = "";
+        saveTaskToLOcalStorage();
+        render();
+      } else {
+        alert("Please add the values");
+      }
+    });
 
     const render = () => {
-        expensesList.innerHTML = "";
-        let total = 0;
-        expensesData.forEach((exp) => {
-            const div = document.createElement("div");
-            div.classList.add("expense-item");
-          total += parseInt(exp.amount);
-          totalExpences.textContent = `Total: $${total}`;
-          div.innerHTML = `
+      expensesList.innerHTML = "";
+      let total = 0;
+      expensesData.forEach((exp) => {
+        const expenseListItem = document.createElement("div");
+        expenseListItem.classList.add("expense-item");
+        total += exp.amount;
+        totalExpences.textContent = `Total: $${total.toFixed(2)}`;
+        expenseListItem.innerHTML = `
             <span>${exp.name.charAt(0).toUpperCase() + exp.name.slice(1)} - $${
-            exp.amount
-          }</span>
+          exp.amount
+        }</span>
             <button class='delete_btn' data-id=${exp.id}>Delete Item</button>`;
 
-            div.querySelector(".delete_btn").addEventListener('click', (e) => {
-                const id = e.target.getAttribute("data-id");
-                expensesData = expensesData.filter((item) => item.id != id);
-                saveTask();
-                render();
-            })
-             expensesList.appendChild(div);
-
+        expensesList.addEventListener("click", (e) => {
+          if (e.target.tagName === "BUTTON") {
+            const id = e.target.getAttribute("data-id");
+            expensesData = expensesData.filter((item) => item.id != id);
+            saveTaskToLOcalStorage();
+            render();
+          }
         });
+        expensesList.appendChild(expenseListItem);
+      });
+    };
 
-    }
-
-    const saveTask = () => {
-        localStorage.setItem("expenses", JSON.stringify(expensesData));
-    }
+    const saveTaskToLOcalStorage = () => {
+      localStorage.setItem("expenses", JSON.stringify(expensesData));
+    };
     render();
 
 })

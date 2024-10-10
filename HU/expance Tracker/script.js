@@ -41,19 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
           exp.amount
         }</span>
             <button class='delete_btn' data-id=${exp.id}>Delete Item</button>`;
-
-        expensesList.addEventListener("click", (e) => {
-          if (e.target.tagName === "BUTTON") {
-            const id = e.target.getAttribute("data-id");
-            expensesData = expensesData.filter((item) => item.id != id);
-            saveTaskToLOcalStorage();
-            render();
-          }
-        });
         expensesList.appendChild(expenseListItem);
       });
     };
-
+    expensesList.addEventListener("click", (e) => {
+      if (e.target.tagName === "BUTTON") {
+        const id = e.target.getAttribute("data-id");
+        expensesData = expensesData.filter((item) => item.id != id);
+        saveTaskToLOcalStorage();
+        render();
+      }
+    });
     const saveTaskToLOcalStorage = () => {
       localStorage.setItem("expenses", JSON.stringify(expensesData));
     };

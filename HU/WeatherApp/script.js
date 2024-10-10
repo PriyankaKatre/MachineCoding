@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const displayWeatherData = (weatherData) => {
         const { name, main, weather } = weatherData;
-        console.log(main, weather);
         cityName.textContent = name;
         temp.textContent = `Temperature ${main.temp}`;
         weatherText.textContent = `weather : ${weather[0].description}`;

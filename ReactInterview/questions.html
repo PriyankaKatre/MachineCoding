@@ -1,0 +1,247 @@
+1. How would you center a div inside a div?
+  Flex Box
+    .parent {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;     /* Center vertically */
+    height: 100vh;           /* For demonstration purposes */
+    }
+    .child {
+    width: 50%;              /* Adjust as needed */
+    height: 50%;             /* Adjust as needed */
+    }
+
+  Grid
+    .parent {
+        display: grid;
+        place-items: center;     /* Center both horizontally and vertically */
+        height: 100vh;           /* For demonstration purposes */
+    }
+    .child {
+        width: 50%;              /* Adjust as needed */
+        height: 50%;             /* Adjust as needed */
+    }
+
+  Position
+    .parent {
+        position: relative;
+        height: 100vh;           /* For demonstration purposes */
+    }
+    .child {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;              /* Adjust as needed */
+        height: 50%;             /* Adjust as needed */
+    }
+
+
+2. Tree shaking and bundling in modern JavaScript applications.
+
+    Tree shaking and bundling are essential techniques for optimizing modern JavaScript applications. Here’s a brief overview:
+
+    Tree Shaking
+    Tree shaking is a technique used to eliminate dead code from your final JavaScript bundle
+    . It relies on the static structure of ES6 modules to determine which parts of your code are actually being used
+    . This results in a smaller, more efficient bundle, leading to faster load times and better performance
+
+    Bundling
+    Bundling is the process of combining multiple JavaScript files into a single file (or a few files) to reduce the number of HTTP requests needed to load a web page. Bundlers like Webpack and Rollup are commonly used for this purpose
+
+
+    How They Work Together
+    Tree Shaking: When you use a bundler like Webpack or Rollup, it performs tree shaking during the build process
+    It analyzes your code and removes any unused code paths, ensuring that only the necessary code is included in the final bundle3
+
+    Bundling: After tree shaking, the bundler combines the remaining code into a single file (or a few files), which is then sent to the browser
+
+
+    example
+    // utils.js
+    export function add(a, b) {
+    return a + b;
+    }
+
+    export function subtract(a, b) {
+    return a - b;
+    }
+
+    // main.js
+    import { add } from './utils.js';
+
+    console.log(add(2, 3)); // Outputs: 5
+
+
+    in this example, if tree shaking is enabled, only the add function will be included in the final bundle, even though subtract is also exported in utils.js
+
+
+    Benefits
+    Improved Performance: Smaller bundles lead to faster load times and better performance.
+
+    Reduced File Size: Eliminating unused code reduces the overall size of your JavaScript files.
+
+    Better User Experience: Faster load times contribute to a smoother and more responsive user experience.
+
+    This line in webpack is responsiable for treeShaking
+    optimization: {
+    usedExports: true,
+    },
+
+
+
+3. Have you worked with any state management libraries like Zustand?
+
+
+4. Techniques for React performance optimization.
+   Code Splitting: Use dynamic imports with React.lazy and Suspense to load components only when needed.
+   Memoization: Use React.memo, useMemo, and useCallback to prevent unnecessary re-renders.
+
+   Virtualization: Utilize libraries like react-window or react-virtualized to efficiently render long lists.
+
+    Avoid Anonymous Functions: Define functions outside of render methods to prevent re-creation of new instances.
+
+    Efficient State Management: Use appropriate state management techniques to avoid frequent re-renders. Libraries like Redux, MobX, or even React's context API can help.
+
+    Debouncing Events: Control the number of events triggered in a given time frame to improve performance
+
+    Provide Key Props in Lists: Use unique keys for list items to help React identify changes efficiently
+
+    Lazy Load Images: Load images only when they are needed to improve load times
+
+
+5. Write a function to check if a string is a palindrome without using the reverse string logic.
+
+  const string = 'pkp'
+  const reverseString = (str) => {
+  let revStr = ''
+    for(let i = str.length -1 ; i >= 0; i-- ) {
+      revStr+=str[i]
+    }
+    if(string === revStr) {
+      return true
+    }
+  }
+  console.log(reverseString(string))
+
+6. What's the output of console.log(this)?
+
+
+7. Difference between arrow functions and regular JavaScript functions.
+  Arrow Function
+    i) Uses a concise syntax.
+        const add = (a, b) => a + b;
+    ii) Does not have its own this context.
+        It inherits this from the surrounding lexical scope.
+        const obj = {
+            value: 10,
+            increment: () => {
+                console.log(this.value); // undefined
+            }
+        };
+        obj.increment();
+    iii) Does not have its own arguments object.
+        const func = () => {
+            console.log(arguments); // ReferenceError: arguments is not defined
+        };
+        func();
+
+
+  Regular Function:
+    1) Uses the traditional function keyword.
+        function add(a, b) {
+            return a + b;
+        }
+    2) Has its own this context.
+        const obj = {
+            value: 10,
+            increment: function() {
+                console.log(this.value); // 10
+            }
+        };
+        obj.increment();
+    3)  Has its own arguments object.
+        function func() {
+            console.log(arguments); // Logs arguments
+        }
+        func(1, 2, 3);
+
+
+8. Write a program to create a promise and an async/await function.
+        const myPromise = new Promise((resolve, reject)=>{
+            let succes = true
+            if(success) {
+                resolve('promise resolved')
+            }
+            else {
+                reject('promise rejected')
+            }
+        })
+
+        myPromise.then((res) =>{
+            console.log(res)
+        }).catch(err){
+            console.log(err)
+        }
+
+        const asyncFunction = async () =>{
+            try{
+                let res = await myPromise;
+                console.log(res)
+            }catch(err){
+                console.log(err)
+            }
+        }
+
+
+9. Several output-based questions on var keyword, hoisting, and async/await.
+
+
+10. What are closures in JavaScript?
+        Closures in JavaScript are a way for a function to remember its lexical scope even when the function is executed outside that scope. They allow you to access variables from an outer function even after the outer function has finished executing.
+
+        function outerFunction() {
+            const outerVariable = 'I am from the outer function';
+
+            function innerFunction() {
+                console.log(outerVariable); // Accesses outerVariable from the outerFunction's scope
+            }
+
+            return innerFunction;
+        }
+
+        const myClosure = outerFunction();
+        myClosure(); // Outputs: I am from the outer function
+
+
+11. If you receive 5000 records in one API call, how would you efficiently display them in a dropdown?
+
+
+12. How is async/await different from promises?
+
+
+13. What do the caret (^) and tilde (~) signs represent in package.json?
+
+
+14. What are dev dependencies in package.json?
+
+
+15. What is Node.js and the event loop?
+
+
+16. Can you explain hoisting in JavaScript? For example: output of the below code.
+
+a = 10;
+console.log(a);
+var a;
+
+17. How does "this" behave in Node.js? Is it the same as in a browser console?
+
+
+18. Write code for mul(2)(3)(4) = 24.
+
+
+19. Have you worked with Axios? What are interceptors in Axios?
+
+
+20. Why do we need the useRef hook in React?

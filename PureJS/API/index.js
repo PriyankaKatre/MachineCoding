@@ -25,3 +25,44 @@ const getDataOneByOne = async () => {
 }
 getDataOneByOne()
 
+//Promise
+const getDataFromAPi = (postNo) => {
+  const api = `https://jsonplaceholder.typicode.com/posts/${postNo}`;
+
+  return fetch(api)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("There is an issue in API response");
+      }
+      return res.json();
+    })
+    .then((jsonRes) => {
+      return { postNo, title: jsonRes.title };
+    })
+    .catch((error) => {
+      console.error("Fetch API Error:", error);
+    });
+};
+
+
+const fetchDataUsingPromises = () => {
+    let returnPromisesFromFetch =[];
+    for (let i = 1; i <= 100; i++) {
+        returnPromisesFromFetch.push(getDataFromAPi(i));
+    }
+
+  Promise.all(returnPromisesFromFetch)
+    .then((responses) => {
+      const outputDiv = document.querySelector(".apiData");
+      responses.forEach(({ postNo, title }) => {
+        outputDiv.innerHTML += `<div class='postTitle'>${postNo} --> ${title}</div>`;
+      });
+    })
+    .catch((error) => {
+      console.error("Fetch API Error:", error);
+    });
+};
+
+fetchDataUsingPromises();
+
+

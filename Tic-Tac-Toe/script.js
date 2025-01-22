@@ -19,20 +19,29 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.setAttribute("data-disabled", "true");
         })
     }
+    const checkDraw = () => {
+      return [...cells].every((cell) => cell.innerText !== "");
+    };
     const winner = (cell) => {
+        console.log(cell);
         for (let winningCond of winningCondition) {
           let cell0 = cells[winningCond[0]].innerText;
           let cell1 = cells[winningCond[1]].innerText;
           let cell2 = cells[winningCond[2]].innerText;
-          if (cell0 !== "" && cell1 !== "" && cell2 !== 0) {
-              if (cell0 === cell1 && cell1 === cell2) {
-                  const winner = cell0 === '0' ? 'Priyanka' :'Vamsi'
-                  winnerElement.innerText = `Winner is ${winner}`;
-                  cell.setAttribute("data-disabled", "true");
-                  disabledBox();
-                   confetti();
+            if (cell0 !== "" && cell1 !== "" && cell2 !== '') {
+                if (cell0 === cell1 && cell1 === cell2) {
+                    const winner = cell0 === '0' ? 'Priyanka' : 'Vamsi'
+                    winnerElement.innerText = `Winner is ${winner}`;
+                    cell.setAttribute("data-disabled", "true");
+                    disabledBox();
+                    confetti();
+                }
             }
-          }
+            if (checkDraw()) {
+              winnerElement.innerText =
+                "It's a draw! Please reset the game to play again.";
+              disabledBox();
+            }
         }
     }
 

@@ -26,13 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
           let cell2 = cells[winningCond[2]].innerText;
           if (cell0 !== "" && cell1 !== "" && cell2 !== 0) {
               if (cell0 === cell1 && cell1 === cell2) {
-                  winnerElement.innerText = `Winner is ${cell0}`;
+                  const winner = cell0 === '0' ? 'Priyanka' :'Vamsi'
+                  winnerElement.innerText = `Winner is ${winner}`;
                   cell.setAttribute("data-disabled", "true");
-                  disabledBox()
+                  disabledBox();
+                   confetti();
             }
           }
         }
     }
+
     cells.forEach((cell) => {
         cell.addEventListener('click', () => {
             if (trun0) {

@@ -35,12 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     cell.setAttribute("data-disabled", "true");
                     disabledBox();
                     confetti();
+                } else {
+                    if (checkDraw()) {
+                      winnerElement.innerText =
+                        "It's a draw! Please reset the game to play again.";
+                      disabledBox();
+                    }
                 }
-            }
-            if (checkDraw()) {
-              winnerElement.innerText =
-                "It's a draw! Please reset the game to play again.";
-              disabledBox();
             }
         }
     }

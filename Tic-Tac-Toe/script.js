@@ -14,17 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
       [2, 4, 6]
     ];
 
-    const reset = () => {
-        cells.forEach((cell) => {
-            cell.innerText = '';
-            trun0 = true;
-            cell.setAttribute("data-disabled", "false");
-        });
-    }
-    resetBtn.addEventListener('click', () => {
-        reset();
-    })
-
     const disabledBox = () => {
         cells.forEach((cell) => {
             cell.setAttribute("data-disabled", "true");
@@ -37,8 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
           let cell2 = cells[winningCond[2]].innerText;
           if (cell0 !== "" && cell1 !== "" && cell2 !== 0) {
               if (cell0 === cell1 && cell1 === cell2) {
-                let winner = ` ${cell0}`;
-                  winnerElement.innerText += winner;
+                  winnerElement.innerText = `Winner is ${cell0}`;
                   cell.setAttribute("data-disabled", "true");
                   disabledBox()
             }
@@ -58,4 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
             winner(cell)
         })
     });
+        const reset = () => {
+          cells.forEach((cell) => {
+            cell.innerText = "";
+            trun0 = true;
+            cell.setAttribute("data-disabled", "false");
+            winnerElement.innerText = "";
+          });
+        };
+        resetBtn.addEventListener("click", reset);
 })
